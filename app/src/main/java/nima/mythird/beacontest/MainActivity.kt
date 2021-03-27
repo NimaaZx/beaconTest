@@ -39,15 +39,15 @@ class MainActivity : AppCompatActivity() {
 //        beaconReferenceApplication.monitoringData.state.observe(this, monitoringObserver)
         beaconReferenceApplication.rangingData.beacons.observe(this, rangingObserver)
 
-        beaconReferenceApplication.rangingData.isScanning.observe(this, Observer { status->
-            if (status!=null)
+        beaconReferenceApplication.rangingData.isScanning.observe(this, Observer { isScanning->
+            if (isScanning!=null)
             {
-                if(status=="stopped scanning")
+                if(isScanning==false)
                     StartRanging.visibility=View.VISIBLE
-                else{
+                else if (isScanning==true){
                     StartRanging.visibility=View.GONE
                 }
-                Log.d("statuuus","status is $status now")
+                Log.d("statuuus","status is $isScanning now")
             }
         })
 
@@ -70,35 +70,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     // This gets called from the BeaconReferenceApplication when monitoring events change changes
-    val monitoringObserver = Observer<Int> { state ->
-        var dialogTitle = "Beacons detected"
-        var dialogMessage = "didEnterRegionEvent has fired"
-        var stateString = "inside"
-        if (state == MonitorNotifier.OUTSIDE) {
-            dialogTitle = "No beacons detected"
-            dialogMessage = "didExitRegionEvent has fired"
-            stateString == "outside"
-            beaconCountTextView.text = "Outside of the beacon region -- no beacons detected"
-            beaconListView.adapter = ArrayAdapter(
-                this, android.R.layout.simple_list_item_1, arrayOf(
-                    "--"
-                )
-            )
-        }
-        else {
-            beaconCountTextView.text = "Inside the beacon region."
-        }
-        Log.d(TAG, "monitoring state changed to : $stateString")
-        val builder =
-                AlertDialog.Builder(this)
-        builder.setTitle(dialogTitle)
-        builder.setMessage(dialogMessage)
-        builder.setPositiveButton(android.R.string.ok, null)
-        alertDialog?.dismiss()
-        alertDialog = builder.create()
-        alertDialog?.show()
-
-    }
+//    val monitoringObserver = Observer<Int> { state ->
+//        var dialogTitle = "Beacons detected"
+//        var dialogMessage = "didEnterRegionEvent has fired"
+//        var stateString = "inside"
+//        if (state == MonitorNotifier.OUTSIDE) {
+//            dialogTitle = "No beacons detected"
+//            dialogMessage = "didExitRegionEvent has fired"
+//            stateString == "outside"
+//            beaconCountTextView.text = "Outside of the beacon region -- no beacons detected"
+//            beaconListView.adapter = ArrayAdapter(
+//                this, android.R.layout.simple_list_item_1, arrayOf(
+//                    "--"
+//                )
+//            )
+//        }
+//        else {
+//            beaconCountTextView.text = "Inside the beacon region."
+//        }
+//        Log.d(TAG, "monitoring state changed to : $stateString")
+//        val builder =
+//                AlertDialog.Builder(this)
+//        builder.setTitle(dialogTitle)
+//        builder.setMessage(dialogMessage)
+//        builder.setPositiveButton(android.R.string.ok, null)
+//        alertDialog?.dismiss()
+//        alertDialog = builder.create()
+//        alertDialog?.show()
+//
+//    }
 
     // This gets called from the BeaconReferenceApplication when ranging callbacks change things
     val rangingObserver = Observer<Collection<Beacon>> { beacons ->
@@ -129,18 +129,18 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    fun monitoringButtonTapped(view: View) {
-        val beaconManager = BeaconManager.getInstanceForApplication(this)
-        if (beaconManager.monitoredRegions.size == 0) {
-            beaconManager.startMonitoringBeaconsInRegion(beaconReferenceApplication.region)
-            monitoringButton.text = "Stop Monitoring"
-        }
-        else {
-            beaconManager.stopMonitoringBeaconsInRegion(beaconReferenceApplication.region)
-            monitoringButton.text = "Start Monitoring"
-        }
-
-    }
+//    fun monitoringButtonTapped(view: View) {
+//        val beaconManager = BeaconManager.getInstanceForApplication(this)
+//        if (beaconManager.monitoredRegions.size == 0) {
+//            beaconManager.startMonitoringBeaconsInRegion(beaconReferenceApplication.region)
+//            monitoringButton.text = "Stop Monitoring"
+//        }
+//        else {
+//            beaconManager.stopMonitoringBeaconsInRegion(beaconReferenceApplication.region)
+//            monitoringButton.text = "Start Monitoring"
+//        }
+//
+//    }
 
 
     fun checkPermissions() {

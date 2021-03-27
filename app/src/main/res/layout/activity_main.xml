@@ -35,7 +35,8 @@
         <Button
             android:id="@+id/monitoringButton"
             android:text="Disable Monitoring"
-            android:onClick="monitoringButtonTapped"
+
+
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1">
